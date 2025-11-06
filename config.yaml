@@ -1,0 +1,39 @@
+logistic_regression:
+  - name: "logreg_cfg1"
+    lr: 0.1
+    weight_decay: 0.0
+    batch_size: 64
+    max_epochs: 30
+  - name: "logreg_cfg2"
+    lr: 0.01
+    weight_decay: 0.0001
+    batch_size: 128
+    max_epochs: 30
+  - name: "logreg_cfg3"
+    lr: 0.001
+    weight_decay: 0.001
+    batch_size: 256
+    max_epochs: 30
+
+svm:
+  - name: "svm_cfg1"
+    lr: 0.1
+    weight_decay: 0.0
+    batch_size: 64
+    max_epochs: 30
+    margin: 1.0
+    C: 1.0
+  - name: "svm_cfg2"
+    lr: 0.01
+    weight_decay: 0.0001
+    batch_size: 128
+    max_epochs: 30
+    margin: 1.0
+    C: 10.0
+  - name: "svm_cfg3"
+    lr: 0.001
+    weight_decay: 0.001
+    batch_size: 256
+    max_epochs: 30
+    margin: 0.5
+    C: 0.5
