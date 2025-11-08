@@ -16,7 +16,8 @@ from evaluate import (
     analizar_rendimiento_comparativo,
     generar_reporte_detallado,
     generar_reporte_completo_con_insights,
-    crear_tabla_comparativa_final
+    crear_tabla_comparativa_final,
+    generar_archivo_resumen_ejecutivo
 )
 
 
@@ -60,6 +61,12 @@ def main():
     # ======================================================
     # 2. Cargar hiperparámetros externos desde config.yaml
     # ======================================================
+    # los hiperparametros provienen de un archivo de configuracion externo
+    # y son explicados claramente en config.yaml:
+    # lr: tasa de aprendizaje, weight_decay: regularizacion l2
+    # batch_size: muestras por lote, max_epochs: epocas maximas
+    # margin/C: parametros especificos de svm
+    
     CONFIG_FILE = "config.yaml"
     if not os.path.exists(CONFIG_FILE):
         raise FileNotFoundError(
@@ -69,8 +76,13 @@ def main():
     with open(CONFIG_FILE, "r") as f:
         configs_all = yaml.safe_load(f)
 
-    logreg_configs = configs_all["logistic_regression"]
-    svm_configs = configs_all["svm"]
+    logreg_configs = configs_all["logistic_regression"]  # 3 configuraciones competitivas
+    svm_configs = configs_all["svm"]                     # 3 configuraciones competitivas
+    
+    print(f"\n=== CONFIGURACIONES CARGADAS ===")
+    print(f"Regresión Logística: {len(logreg_configs)} configuraciones competitivas")
+    print(f"SVM: {len(svm_configs)} configuraciones competitivas")
+    print("Cada configuración tiene hiperparámetros explicados en config.yaml")
 
     # ======================================================
     # 3. Preparar datos
@@ -112,6 +124,11 @@ def main():
     # ======================================================
     # 5. Entrenar LogReg en paralelo con descarte progresivo
     # ======================================================
+    # El sistema entrena múltiples configuraciones simultáneamente:
+    # - Cada configuración usa hiperparámetros distintos del config.yaml
+    # - Se evalúan cada 5 épocas y se elimina la de peor rendimiento
+    # - Solo las 2 mejores configuraciones sobreviven al final
+    # - Esto permite encontrar automáticamente los mejores hiperparámetros
     print("\n=== ENTRENANDO LOGISTIC REGRESSION (paralelo multi-config) ===")
     logreg_survivors, logreg_history = run_parallel_training(
         model_type="logreg",
@@ -128,6 +145,10 @@ def main():
     # ======================================================
     # 6. Entrenar SVM lineal en paralelo con descarte progresivo
     # ======================================================
+    # Mismo proceso competitivo para SVM con hiperparámetros específicos:
+    # - Incluye parámetros adicionales: margin y C (explicados en config.yaml)
+    # - margin controla qué tan estricta es la separación entre clases
+    # - C controla el balance entre maximizar margen y minimizar errores
     print("\n=== ENTRENANDO SVM (paralelo multi-config) ===")
     svm_survivors, svm_history = run_parallel_training(
         model_type="svm",
@@ -263,9 +284,21 @@ def main():
         else:
             print(f"\nRECOMENDACION: La diferencia es significativa ({diferencia*100:.2f}%).")
             print(f"Se recomienda usar {tipo_ganador} para maximizar precision.")
-    
-   
+        
 
+    
+    # ======================================================
+    # 12. GENERAR ARCHIVO DE RESUMEN 
+    # ======================================================
+    archivo_resumen = generar_archivo_resumen_ejecutivo(
+        resultados_logreg, resultados_svm, X_train, class_mapping
+    )
+    
+    if archivo_resumen:
+        print(f"\nARCHIVO DE RESUMEN: {archivo_resumen}")
+        print("   Contiene un resumen ejecutivo con los resultados más importantes")
+    
+    
 
 if __name__ == "__main__":
     main()

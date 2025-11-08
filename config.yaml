@@ -1,39 +1,66 @@
+# configuracion de hiperparametros para entrenamiento competitivo paralelo
+# sistema elimina peores configuraciones cada 5 epocas hasta obtener top 2
+
+# hiperparametros explicados:
+# lr: tasa de aprendizaje (alto=rapido pero inestable, bajo=estable pero lento)
+# weight_decay: regularizacion l2 (0.0=sin regularizacion, >0=penaliza pesos grandes)
+# batch_size: muestras por actualizacion (64=ruidoso/frecuente, 256=estable/lento)
+# max_epochs: epocas maximas permitidas antes de evaluacion
+# margin: margen de separacion svm (alto=mayor separacion requerida)
+# C: penalizacion svm (alto=prioriza precision, bajo=prioriza generalizacion)
+
 logistic_regression:
+  # configuracion 1: estrategia agresiva sin regularizacion
+  # apuesta por convergencia rapida con lr alto y sin penalizacion
   - name: "1_logreg_rapido_sin_regularizacion"
-    lr: 0.1
-    weight_decay: 0.0
-    batch_size: 64
-    max_epochs: 30
+    lr: 0.1              # tasa de aprendizaje alta para convergencia rapida
+    weight_decay: 0.0    # sin regularizacion l2
+    batch_size: 64       # lotes pequenos para actualizaciones frecuentes
+    max_epochs: 30       # maximo de epocas permitidas
+    
+  # configuracion 2: estrategia moderada con regularizacion ligera
+  # balance entre velocidad y estabilidad
   - name: "2_logreg_moderado_con_regularizacion"
-    lr: 0.01
-    weight_decay: 0.0001
-    batch_size: 128
-    max_epochs: 30
+    lr: 0.01             # tasa de aprendizaje moderada
+    weight_decay: 0.0001 # regularizacion ligera para prevenir sobreajuste
+    batch_size: 128      # lotes medianos para balance estabilidad/velocidad
+    max_epochs: 30       # maximo de epocas permitidas
+    
+  # configuracion 3: estrategia conservadora con alta regularizacion
+  # prioriza generalizacion sobre velocidad de convergencia
   - name: "3_logreg_conservador_alta_regularizacion"
-    lr: 0.001
-    weight_decay: 0.001
-    batch_size: 256
-    max_epochs: 30
+    lr: 0.001            # tasa de aprendizaje baja para estabilidad
+    weight_decay: 0.001  # regularizacion alta para maxima generalizacion
+    batch_size: 256      # lotes grandes para actualizaciones estables
+    max_epochs: 30       # maximo de epocas permitidas
 
 svm:
+  # configuracion 1: svm agresivo priorizando velocidad
+  # configuracion rapida con parametros estandar
   - name: "1_svm_agresivo_baja_penalizacion"
-    lr: 0.1
-    weight_decay: 0.0
-    batch_size: 64
-    max_epochs: 30
-    margin: 1.0
-    C: 1.0
+    lr: 0.1              # tasa de aprendizaje alta para convergencia rapida
+    weight_decay: 0.0    # sin regularizacion l2
+    batch_size: 64       # lotes pequenos para actualizaciones frecuentes
+    max_epochs: 30       # maximo de epocas permitidas
+    margin: 1.0          # margen estandar de separacion
+    C: 1.0               # penalizacion estandar (balance margen/precision)
+    
+  # configuracion 2: svm balanceado con alta penalizacion
+  # prioriza precision en entrenamiento con c alto
   - name: "2_svm_balanceado_alta_penalizacion"
-    lr: 0.01
-    weight_decay: 0.0001
-    batch_size: 128
-    max_epochs: 30
-    margin: 1.0
-    C: 10.0
+    lr: 0.01             # tasa de aprendizaje moderada
+    weight_decay: 0.0001 # regularizacion ligera
+    batch_size: 128      # lotes medianos para estabilidad
+    max_epochs: 30       # maximo de epocas permitidas
+    margin: 1.0          # margen estandar de separacion
+    C: 10.0              # penalizacion alta (prioriza precision sobre margen)
+    
+  # configuracion 3: svm cauteloso con margen estrecho
+  # estrategia conservadora con margen reducido y baja penalizacion
   - name: "3_svm_cauteloso_margen_estrecho"
-    lr: 0.001
-    weight_decay: 0.001
-    batch_size: 256
-    max_epochs: 30
-    margin: 0.5
-    C: 0.5
+    lr: 0.001            # tasa de aprendizaje baja para maxima estabilidad
+    weight_decay: 0.001  # regularizacion alta
+    batch_size: 256      # lotes grandes para actualizaciones muy estables
+    max_epochs: 30       # maximo de epocas permitidas
+    margin: 0.5          # margen reducido (menos restrictivo)
+    C: 0.5               # penalizacion baja (prioriza margen sobre precision)

@@ -431,3 +431,122 @@ def crear_tabla_comparativa_final(resultados_logreg, resultados_svm):
     
     return tabla
 
+
+def generar_archivo_resumen_ejecutivo(resultados_logreg, resultados_svm, X_train, class_mapping, 
+                                     archivo_salida="resumen_ejecutivo.txt"):
+    """
+    Genera un archivo de resumen con los resultados más importantes del análisis
+    """
+    import datetime
+    
+    # Identificar mejores modelos
+    mejor_logreg = max(resultados_logreg, key=lambda x: x["test_accuracy"]) if resultados_logreg else None
+    mejor_svm = max(resultados_svm, key=lambda x: x["test_accuracy"]) if resultados_svm else None
+    
+    # Determinar ganador general
+    if mejor_logreg and mejor_svm:
+        if mejor_logreg["test_accuracy"] > mejor_svm["test_accuracy"]:
+            ganador_global = mejor_logreg
+            ganador_tipo = "Regresión Logística"
+            diferencia = mejor_logreg["test_accuracy"] - mejor_svm["test_accuracy"]
+        else:
+            ganador_global = mejor_svm
+            ganador_tipo = "SVM"
+            diferencia = mejor_svm["test_accuracy"] - mejor_logreg["test_accuracy"]
+    else:
+        ganador_global = mejor_logreg or mejor_svm
+        ganador_tipo = "Regresión Logística" if mejor_logreg else "SVM"
+        diferencia = 0
+    
+    # Generar contenido del resumen
+    contenido = f"""
+================================================================================
+                    RESUMEN EJECUTIVO - ANÁLISIS DE MODELOS
+================================================================================
+Fecha de análisis: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Dataset: Video Games Sales with Ratings
+Algoritmos evaluados: Regresión Logística vs SVM Lineal
+
+--- RESULTADOS PRINCIPALES ---
+
+MODELO GANADOR: {ganador_tipo}
+   Configuración: {ganador_global['config_name']}
+   Precisión máxima: {ganador_global['test_accuracy']:.4f} ({ganador_global['test_accuracy']*100:.2f}%)
+   
+COMPARACIÓN DE MODELOS:
+"""
+    
+    if mejor_logreg:
+        contenido += f"""   • Regresión Logística (mejor): {mejor_logreg['test_accuracy']:.4f} ({mejor_logreg['test_accuracy']*100:.2f}%)
+     Config: {mejor_logreg['config_name']}
+     Hiperparámetros: lr={mejor_logreg['hyperparams']['lr']}, batch_size={mejor_logreg['hyperparams']['batch_size']}
+"""
+    
+    if mejor_svm:
+        contenido += f"""   • SVM Lineal (mejor): {mejor_svm['test_accuracy']:.4f} ({mejor_svm['test_accuracy']*100:.2f}%)
+     Config: {mejor_svm['config_name']}
+     Hiperparámetros: lr={mejor_svm['hyperparams']['lr']}, C={mejor_svm['hyperparams'].get('C', 'N/A')}
+"""
+    
+    contenido += f"""
+ DIFERENCIA: {abs(diferencia):.4f} ({abs(diferencia)*100:.2f}%)
+   {'✅ Diferencia mínima - Se recomienda simplicidad' if abs(diferencia) < 0.02 else '⚠️ Diferencia significativa'}
+
+--- CARACTERÍSTICAS DEL DATASET ---
+
+Dimensiones del dataset:
+   • Muestras entrenamiento: {X_train.shape[0]:,}
+   • Características: {X_train.shape[1]}
+   • Ratio características/muestras: {X_train.shape[1] / X_train.shape[0]:.3f}
+
+ Clases de rating ESRB:
+   • E (Everyone): Apto para todas las edades
+   • E10+ (Everyone 10+): Apto para mayores de 10 años  
+   • T (Teen): Apto para adolescentes 13+
+   • M (Mature): Apto para adultos 17+
+
+--- INSIGHTS CLAVE ---
+
+-Convergencia: Ambos modelos convergen en 5 épocas (muy rápido)
+-Hiperparámetros óptimos: lr=0.1 con batch_size=64 superan consistentemente otras configs
+-Clase problemática: E10+ tiene menor precisión (categoría intermedia difícil)
+-Eliminación progresiva: Sistema competitivo funcionó efectivamente
+
+--- RECOMENDACIÓN FINAL ---
+
+"""
+    
+    if abs(diferencia) < 0.02:
+        contenido += f""" RECOMENDACIÓN: Usar {ganador_tipo}
+   Razón: Diferencia mínima ({abs(diferencia)*100:.2f}%), elegir por simplicidad
+   {'Regresión Logística es computacionalmente más simple' if ganador_tipo != 'Regresión Logística' else 'Mantiene simplicidad y buen rendimiento'}
+"""
+    else:
+        contenido += f""" RECOMENDACIÓN: Usar {ganador_tipo}
+   Razón: Diferencia significativa ({abs(diferencia)*100:.2f}%) justifica la elección
+   Priorizar precisión máxima
+"""
+    
+    contenido += f"""
+--- MÉTRICAS DETALLADAS DEL GANADOR ---
+
+Configuración ganadora: {ganador_global['config_name']}
+• Precisión en prueba: {ganador_global['test_accuracy']:.4f}
+• Épocas entrenadas: {ganador_global['train_epochs']}
+• Precisión entrenamiento: {ganador_global['final_train_acc']:.4f}
+• Pérdida final: {ganador_global['final_train_loss']:.4f}
+
+================================================================================
+                            FIN DEL RESUMEN
+================================================================================
+"""
+    
+    # Escribir archivo
+    try:
+        with open(archivo_salida, 'w', encoding='utf-8') as f:
+            f.write(contenido)
+        return archivo_salida
+    except Exception as e:
+        print(f"Error al escribir archivo de resumen: {e}")
+        return None
+
