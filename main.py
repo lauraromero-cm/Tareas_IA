@@ -96,6 +96,11 @@ def main():
     print("Train shape:", X_train.shape)
     print("Test shape:", X_test.shape)
     print("Clases (id -> etiqueta Rating):", class_mapping)
+    print("CONTEXTO DE RATINGS:")
+    print("  • E: Everyone (Apto para todas las edades)")
+    print("  • E10+: Everyone 10+ (Apto para mayores de 10 años)")
+    print("  • T: Teen (Apto para adolescentes 13+)")
+    print("  • M: Mature (Apto para adultos 17+)")
     print("input_dim:", input_dim, "| num_classes:", num_classes)
 
     # ======================================================

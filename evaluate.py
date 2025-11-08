@@ -288,12 +288,6 @@ def generar_reporte_completo_con_insights(resultados_logreg, resultados_svm,
     reporte += "INSIGHT: Problema de clasificacion multiclase con 4 ratings (E, E10+, M, T), "
     reporte += "lo que requiere que los modelos distingan entre categorias ordenadas de contenido.\n"
     
-    # analisis de convergencia
-    reporte += "\n--- ANALISIS DE CONVERGENCIA ---\n"
-    reporte += "Patrones identificados en Regresion Logistica:\n"
-    for config in sobrevivientes_logreg:
-        if len(config["history"]) >= 2:
-            reporte += f"  - {config['cfg']['name']}: convergencia rapida\n"
     
     reporte += "Patrones identificados en SVM:\n"
     for config in sobrevivientes_svm:
