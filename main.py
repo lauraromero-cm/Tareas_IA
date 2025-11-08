@@ -208,10 +208,6 @@ def main():
         print(f"Precision final entrenamiento: {result['final_train_acc']:.4f}")
         print(f"Perdida final entrenamiento: {result['final_train_loss']:.4f}")
         print(f"Hiperparametros: {result['hyperparams']}")
-        print("Reporte de clasificacion:")
-        print(result['classification_report'])
-        print("Matriz de confusion:")
-        print(result['confusion_matrix'])
     
     print("\n--- SVM: MEJORES 2 CONFIGURACIONES ---")
     for i, result in enumerate(resultados_svm, 1):
@@ -221,10 +217,6 @@ def main():
         print(f"Precision final entrenamiento: {result['final_train_acc']:.4f}")
         print(f"Perdida final entrenamiento: {result['final_train_loss']:.4f}")
         print(f"Hiperparametros: {result['hyperparams']}")
-        print("Reporte de clasificacion:")
-        print(result['classification_report'])
-        print("Matriz de confusion:")
-        print(result['confusion_matrix'])
     
     # ======================================================
     # 10. CONCLUSIONES FINALES

@@ -1,26 +1,26 @@
 
 ================================================================================
-                    RESUMEN EJECUTIVO - ANÁLISIS DE MODELOS
+                    RESUMEN  - ANÁLISIS DE MODELOS
 ================================================================================
-Fecha de análisis: 2025-11-08 17:48:17
+Fecha de análisis: 2025-11-08 17:51:00
 Dataset: Video Games Sales with Ratings
 Algoritmos evaluados: Regresión Logística vs SVM Lineal
 
 --- RESULTADOS PRINCIPALES ---
 
-MODELO GANADOR: Regresión Logística
-   Configuración: 1_logreg_rapido_sin_regularizacion
-   Precisión máxima: 0.6722 (67.22%)
+MODELO GANADOR: SVM
+   Configuración: 1_svm_agresivo_baja_penalizacion
+   Precisión máxima: 0.6585 (65.85%)
    
 COMPARACIÓN DE MODELOS:
-   • Regresión Logística (mejor): 0.6722 (67.22%)
+   • Regresión Logística (mejor): 0.6563 (65.63%)
      Config: 1_logreg_rapido_sin_regularizacion
      Hiperparámetros: lr=0.1, batch_size=64
-   • SVM Lineal (mejor): 0.6578 (65.78%)
+   • SVM Lineal (mejor): 0.6585 (65.85%)
      Config: 1_svm_agresivo_baja_penalizacion
      Hiperparámetros: lr=0.1, C=1.0
 
- DIFERENCIA: 0.0144 (1.44%)
+ DIFERENCIA: 0.0022 (0.22%)
    ✅ Diferencia mínima - Se recomienda simplicidad
 
 --- CARACTERÍSTICAS DEL DATASET ---
@@ -39,17 +39,17 @@ Dimensiones del dataset:
 
 --- RECOMENDACIÓN FINAL ---
 
- RECOMENDACIÓN: Usar Regresión Logística
-   Razón: Diferencia mínima (1.44%), elegir por simplicidad
-   Mantiene simplicidad y buen rendimiento
+ RECOMENDACIÓN: Usar SVM
+   Razón: Diferencia mínima (0.22%), elegir por simplicidad
+   Regresión Logística es computacionalmente más simple
 
 --- MÉTRICAS DETALLADAS DEL GANADOR ---
 
-Configuración ganadora: 1_logreg_rapido_sin_regularizacion
-• Precisión en prueba: 0.6722
+Configuración ganadora: 1_svm_agresivo_baja_penalizacion
+• Precisión en prueba: 0.6585
 • Épocas entrenadas: 5
-• Precisión entrenamiento: 0.6772
-• Pérdida final: 0.7778
+• Precisión entrenamiento: 0.6791
+• Pérdida final: 0.2582
 
 ================================================================================
                             FIN DEL RESUMEN
