@@ -345,37 +345,7 @@ def generar_reporte_completo_con_insights(resultados_logreg, resultados_svm,
         for freq, verdadera, predicha, pct in errores[:3]:
             reporte += f"Confunde {verdadera} con {predicha}: {freq} casos ({pct:.1f}%)\n"
     
-    # conclusiones finales
-    reporte += "\n" + "-"*80 + "\n"
-    reporte += "CONCLUSIONES CLAVE DEL ANALISIS PROFUNDO:\n"
-    reporte += "-"*80 + "\n"
-    
-    ratio = X_train.shape[1] / X_train.shape[0]
-    
-    reporte += f"""
-1. RATIO CARACTERISTICAS/MUESTRAS OPTIMIZADO: Con {X_train.shape[1]} caracteristicas para {X_train.shape[0]} muestras,
-   el ratio es {ratio:.3f}, lo que esta en un rango saludable para estos algoritmos.
-   Esto permite un entrenamiento estable sin problemas severos de dimensionalidad.
-
-2. CONVERGENCIA RAPIDA: Ambos modelos convergen en pocas epocas (5), sugiriendo
-   que el problema es relativamente bien condicionado para estos algoritmos lineales
-   y que el dataset tiene suficientes muestras para un entrenamiento efectivo.
-
-3. RATINGS INTERMEDIOS MAS DIFICILES: Los ratings E10+ consistentemente muestran
-   menor precision, posiblemente porque representan una categoria intermedia
-   mas dificil de distinguir entre contenido para niños (E) y adolescentes (T).
-
-4. TASAS DE APRENDIZAJE ALTAS EFECTIVAS: Las configuraciones con lr=0.1 superan
-   a las de lr=0.01, indicando que el paisaje de optimizacion permite pasos grandes
-   gracias al dataset bien balanceado y de tamaño adecuado.
-
-5. ELIMINACION PROGRESIVA EFECTIVA: El sistema logro identificar las mejores
-   configuraciones eliminando las peores cada 5 epocas, demostrando eficiencia
-   del enfoque competitivo paralelo.
-    """
-    
-    return reporte
-
+   
 
 def crear_tabla_comparativa_final(resultados_logreg, resultados_svm):
     """
@@ -419,15 +389,6 @@ def crear_tabla_comparativa_final(resultados_logreg, resultados_svm):
         tabla += f"DIFERENCIA: {diferencia:.4f} ({diferencia*100:.2f}%)\n"
         tabla += f"VEREDICTO: {'Diferencia minima - elegir por simplicidad' if diferencia < 0.02 else 'Diferencia significativa'}\n"
     
-    # insights clave
-    tabla += "\n" + "="*60 + "\n"
-    tabla += "INSIGHTS CLAVE AUTOMATICAMENTE IDENTIFICADOS:\n"
-    tabla += "="*60 + "\n"
-    tabla += "• Configuraciones con lr=0.1 superan consistentemente a lr=0.01\n"
-    tabla += "• Batch size pequeño (64) mejor que grande (128)\n"
-    tabla += "• E10+ es la clase mas problematica (menor precision)\n"
-    tabla += "• Convergencia ultra-rapida (5 epocas suficientes)\n"
-    tabla += "• Eliminacion progresiva efectiva para seleccion automatica\n"
     
     return tabla
 
@@ -505,12 +466,6 @@ Dimensiones del dataset:
    • T (Teen): Apto para adolescentes 13+
    • M (Mature): Apto para adultos 17+
 
---- INSIGHTS CLAVE ---
-
--Convergencia: Ambos modelos convergen en 5 épocas (muy rápido)
--Hiperparámetros óptimos: lr=0.1 con batch_size=64 superan consistentemente otras configs
--Clase problemática: E10+ tiene menor precisión (categoría intermedia difícil)
--Eliminación progresiva: Sistema competitivo funcionó efectivamente
 
 --- RECOMENDACIÓN FINAL ---
 

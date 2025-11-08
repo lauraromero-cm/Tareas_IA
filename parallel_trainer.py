@@ -14,7 +14,7 @@ def make_dataloader(X, y, batch_size, shuffle=True):
 
 def train_one_epoch(model, optimizer, loss_fn, train_loader, device):
     """
-    Entrena UNA época y devuelve (loss_promedio, acc_train)
+    Entrena 1 epoca y devuelve (loss_promedio, acc_train)
     """
     model.train()
     total_loss = 0.0

@@ -2,25 +2,25 @@
 ================================================================================
                     RESUMEN EJECUTIVO - ANÁLISIS DE MODELOS
 ================================================================================
-Fecha de análisis: 2025-11-08 15:48:01
+Fecha de análisis: 2025-11-08 17:48:17
 Dataset: Video Games Sales with Ratings
 Algoritmos evaluados: Regresión Logística vs SVM Lineal
 
 --- RESULTADOS PRINCIPALES ---
 
-MODELO GANADOR: SVM
-   Configuración: 1_svm_agresivo_baja_penalizacion
-   Precisión máxima: 0.6621 (66.21%)
+MODELO GANADOR: Regresión Logística
+   Configuración: 1_logreg_rapido_sin_regularizacion
+   Precisión máxima: 0.6722 (67.22%)
    
 COMPARACIÓN DE MODELOS:
-   • Regresión Logística (mejor): 0.6592 (65.92%)
+   • Regresión Logística (mejor): 0.6722 (67.22%)
      Config: 1_logreg_rapido_sin_regularizacion
      Hiperparámetros: lr=0.1, batch_size=64
-   • SVM Lineal (mejor): 0.6621 (66.21%)
+   • SVM Lineal (mejor): 0.6578 (65.78%)
      Config: 1_svm_agresivo_baja_penalizacion
      Hiperparámetros: lr=0.1, C=1.0
 
- DIFERENCIA: 0.0029 (0.29%)
+ DIFERENCIA: 0.0144 (1.44%)
    ✅ Diferencia mínima - Se recomienda simplicidad
 
 --- CARACTERÍSTICAS DEL DATASET ---
@@ -29,7 +29,6 @@ Dimensiones del dataset:
    • Muestras entrenamiento: 9,999
    • Características: 298
    • Ratio características/muestras: 0.030
-   
 
  Clases de rating ESRB:
    • E (Everyone): Apto para todas las edades
@@ -37,26 +36,20 @@ Dimensiones del dataset:
    • T (Teen): Apto para adolescentes 13+
    • M (Mature): Apto para adultos 17+
 
---- INSIGHTS CLAVE ---
-
--Convergencia: Ambos modelos convergen en 5 épocas (muy rápido)
--Hiperparámetros óptimos: lr=0.1 con batch_size=64 superan consistentemente otras configs
--Clase problemática: E10+ tiene menor precisión (categoría intermedia difícil)
--Eliminación progresiva: Sistema competitivo funcionó efectivamente
 
 --- RECOMENDACIÓN FINAL ---
 
- RECOMENDACIÓN: Usar SVM
-   Razón: Diferencia mínima (0.29%), elegir por simplicidad
-   Regresión Logística es computacionalmente más simple
+ RECOMENDACIÓN: Usar Regresión Logística
+   Razón: Diferencia mínima (1.44%), elegir por simplicidad
+   Mantiene simplicidad y buen rendimiento
 
 --- MÉTRICAS DETALLADAS DEL GANADOR ---
 
-Configuración ganadora: 1_svm_agresivo_baja_penalizacion
-• Precisión en prueba: 0.6621
+Configuración ganadora: 1_logreg_rapido_sin_regularizacion
+• Precisión en prueba: 0.6722
 • Épocas entrenadas: 5
-• Precisión entrenamiento: 0.6802
-• Pérdida final: 0.2583
+• Precisión entrenamiento: 0.6772
+• Pérdida final: 0.7778
 
 ================================================================================
                             FIN DEL RESUMEN

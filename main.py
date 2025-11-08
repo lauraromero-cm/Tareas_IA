@@ -251,7 +251,7 @@ def main():
         mejor_svm = max(resultados_svm, key=lambda x: x["test_accuracy"])
         
         print("\n" + "="*100)
-        print("CONCLUSIONES FINALES AUTOMATIZADAS")
+        print("CONCLUSIONES FINALES")
         print("="*100)
         
         print(f"\nMEJOR MODELO GENERAL:")
