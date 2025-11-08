@@ -28,15 +28,6 @@ O con el archivo de requirements:
 ```bash
 pip install -r requirements.txt
 ```
-
-## Configuración
-
-El proyecto usa `config.yaml` para definir hiperparámetros de entrenamiento. Este archivo ya está incluido y contiene:
-
-- 3 configuraciones competitivas de Regresión Logística
-- 3 configuraciones competitivas de SVM
-- Explicación detallada de cada hiperparámetro
-
 ## Ejecución
 
 ### Ejecutar entrenamiento completo
