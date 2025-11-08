@@ -181,7 +181,7 @@ def run_parallel_training(
 
             alive.remove(worst_slot)
 
-        # si quedan 2 o menos, ya terminamos (el enunciado pide top2)
+        # si quedan 2 o menos, ya terminamos 
         if len(alive) <= 2:
             break
 

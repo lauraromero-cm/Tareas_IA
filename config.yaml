@@ -1,36 +1,36 @@
 logistic_regression:
-  - name: "logreg_cfg1"
+  - name: "1_logreg_rapido_sin_regularizacion"
     lr: 0.1
     weight_decay: 0.0
     batch_size: 64
     max_epochs: 30
-  - name: "logreg_cfg2"
+  - name: "2_logreg_moderado_con_regularizacion"
     lr: 0.01
     weight_decay: 0.0001
     batch_size: 128
     max_epochs: 30
-  - name: "logreg_cfg3"
+  - name: "3_logreg_conservador_alta_regularizacion"
     lr: 0.001
     weight_decay: 0.001
     batch_size: 256
     max_epochs: 30
 
 svm:
-  - name: "svm_cfg1"
+  - name: "1_svm_agresivo_baja_penalizacion"
     lr: 0.1
     weight_decay: 0.0
     batch_size: 64
     max_epochs: 30
     margin: 1.0
     C: 1.0
-  - name: "svm_cfg2"
+  - name: "2_svm_balanceado_alta_penalizacion"
     lr: 0.01
     weight_decay: 0.0001
     batch_size: 128
     max_epochs: 30
     margin: 1.0
     C: 10.0
-  - name: "svm_cfg3"
+  - name: "3_svm_cauteloso_margen_estrecho"
     lr: 0.001
     weight_decay: 0.001
     batch_size: 256
